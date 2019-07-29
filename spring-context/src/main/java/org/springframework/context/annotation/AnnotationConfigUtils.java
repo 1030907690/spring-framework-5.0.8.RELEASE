@@ -197,6 +197,7 @@ public class AnnotationConfigUtils {
 			beanDefs.add(registerPostProcessor(registry, def, PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
+		// 注册EventListenerMethodProcessor对象
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(EventListenerMethodProcessor.class);
 			def.setSource(source);
