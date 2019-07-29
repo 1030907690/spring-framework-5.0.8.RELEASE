@@ -111,6 +111,7 @@ public class EventListenerMethodProcessor implements SmartInitializingSingleton,
 						}
 					}
 					try {
+						// 重点是这个方法 处理bean
 						processBean(factories, beanName, type);
 					}
 					catch (Throwable ex) {
@@ -140,6 +141,7 @@ public class EventListenerMethodProcessor implements SmartInitializingSingleton,
 		if (!this.nonAnnotatedClasses.contains(targetType)) {
 			Map<Method, EventListener> annotatedMethods = null;
 			try {
+				// 拿到使用了@EventListener注解的方法
 				annotatedMethods = MethodIntrospector.selectMethods(targetType,
 						(MethodIntrospector.MetadataLookup<EventListener>) method ->
 								AnnotatedElementUtils.findMergedAnnotation(method, EventListener.class));
@@ -161,13 +163,19 @@ public class EventListenerMethodProcessor implements SmartInitializingSingleton,
 				ConfigurableApplicationContext context = getApplicationContext();
 				for (Method method : annotatedMethods.keySet()) {
 					for (EventListenerFactory factory : factories) {
+						// 判断是否支持该方法  这里用的DefaultEventListenerFactory spring5.0.8 写死的返回true
 						if (factory.supportsMethod(method)) {
+							//选择方法  beanName 这里是AddDateEventListener的beanName 默认是addDateEventListener
 							Method methodToUse = AopUtils.selectInvocableMethod(method, context.getType(beanName));
+							// 这里是创建一个ApplicationListenerMethodAdapter对象
 							ApplicationListener<?> applicationListener =
 									factory.createApplicationListener(beanName, targetType, methodToUse);
 							if (applicationListener instanceof ApplicationListenerMethodAdapter) {
+								// 如果是ApplicationListenerMethodAdapter对象 就把context和evaluator传进去
 								((ApplicationListenerMethodAdapter) applicationListener).init(context, this.evaluator);
 							}
+
+							// 添加到ApplicationListener事件Set集合中去
 							context.addApplicationListener(applicationListener);
 							break;
 						}

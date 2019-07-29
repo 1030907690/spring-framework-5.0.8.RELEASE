@@ -177,6 +177,7 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 	public void processEvent(ApplicationEvent event) {
 		Object[] args = resolveArguments(event);
 		if (shouldHandle(event, args)) {
+			// 执行真正的方法
 			Object result = doInvoke(args);
 			if (result != null) {
 				handleResult(result);
