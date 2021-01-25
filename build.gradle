@@ -151,7 +151,10 @@ configure(allprojects) { project ->
 	}
 
 	repositories {
+		// maven { url "https://repo.spring.io/libs-release" } Spring的仓库要登录报401，所以注释掉
 		maven { url "https://maven.aliyun.com/repository/public" }
+		maven { url "https://maven.aliyun.com/repository/spring" }
+
 	}
 
 	dependencies {
