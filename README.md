@@ -6,3 +6,6 @@ spring-framework-5.0.8.RELEASE spring5.0.8源码
     Warning:Kotlin: Classpath entry points to a non-existent location: F:\work\spring-framework-5.0.8.RELEASE\spring-core\build\libs\spring-cglib-repack-3.2.6.jar
     Warning:Kotlin: Classpath entry points to a non-existent location: F:\work\spring-framework-5.0.8.RELEASE\spring-core\build\libs\spring-objenesis-repack-2.6.jar
     把包放在build/libs下
+   
+ - idea控制台中文乱码
+    运行参数加入-Dfile.encoding=UTF-8
